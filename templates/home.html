@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>HOME </title>
+    <style>
+      /* CSS for the navigation bar */
+      .navbar {
+        overflow: hidden;
+        background-color: #333;
+        font-family: Arial, sans-serif;
+      }
+      
+      .navbar a {
+        float: left;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+      
+      .navbar a:hover {
+        background-color: #ddd;
+        color: black;
+      }
+      
+      .active {
+        background-color: #4CAF50;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation bar -->
+    <div class="navbar">
+      <a class="active" href="/home">HOME </a>
+      <a href="/login">login</a>
+      <a href="/register">register</a>
+    </div>
+    
+    <!-- Page content -->
+    <div style="padding: 20px">
+      <style>
+        p{
+          text-align:center;
+          margin-top: 5px;
+        }
+        h1 {
+          text-align: center;
+          margin-top: 50px;
+        }
+        form {
+          display: flex;
+          justify-content: center;
+          margin-top: 50px;
+        }
+        label {
+          font-size: 20px;
+          margin-right: 10px;
+        }
+        input[type="text"] {
+          padding: 10px;
+          font-size: 16px;
+          border: 2px solid #ccc;
+          border-radius: 4px;
+        }
+        button[type="submit"] {
+          padding: 10px 20px;
+          font-size: 16px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        button[type="submit"]:hover {
+          background-color: #45a049;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>URL Shortener</h1>
+      <form method="post" action="/shorten_url">
+        <label for="url">Enter URL:</label>
+        <input type="text" id="url" name="url">
+        <button type="submit">Shorten</button>
+      </form>
+      <p>please enter the url that you want to short!</p>
+      {% if redirect_url %}
+        <p>Shortened URL: <a href="{{ redirect_url }}">{{ redirect_url }}</a></p>
+      {% elif error %}
+        <p>Error: {{ error }}</p>
+      {% endif %}
+    </body>
+    </div>
+    
+    <!-- About page -->
+    <div style="padding: 20px; display:none" id="about">
+      <h1>login</h1>
+      <p>login to your account</p>
+    </div>
+    
+    <!-- Contact page -->
+    <div style="padding: 20px; display:none" id="contact">
+      <h1>Register</h1>
+      <p>Please register first if you don't have account</p>
+    </div>
+    
+    <!-- JavaScript to toggle between pages -->
+    <script>
+      var navbar = document.getElementsByClassName("navbar")[0];
+      var links = navbar.getElementsByTagName("a");
+      for (var i = 0; i < links.length; i++) {
+        links[i].addEventListener("click", function() {
+          var current = document.getElementsByClassName("active");
+          current[0].className = current[0].className.replace(" active", "");
+          this.className += " active";
+          var page = this.getAttribute("href").substr(1);
+          var content = document.getElementById(page);
+          var pages = document.getElementsByTagName("div");
+          for (var j = 0; j < pages.length; j++) {
+            if (pages[j].id == page) {
+              pages[j].style.display = "block";
+            } else {
+              pages[j].style.display = "none";
+            }
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>URL Shortener</title>
+    <style>
+      p{
+        text-align: center;
+        margin-top: 50px;
+      }
+      h1 {
+        text-align: center;
+        margin-top: 50px;
+      }
+      form {
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+      }
+      label {
+        font-size: 20px;
+        margin-right: 10px;
+      }
+      input[type="text"] {
+        padding: 10px;
+        font-size: 16px;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+      }
+      button[type="submit"] {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button[type="submit"]:hover {
+        background-color: #45a049;
+      }
+      button[type="button"]
+      {
+        background-color:#45a049;
+        color: whitesmoke;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 10px 20px;
+        display: block;
+        margin: auto;
+      }
+    </style>
+  </head>
+
+{% extends 'layout.html' %}
+{% block content %}
+  <body>
+    <h1>URL Shortener</h1>
+    <form method="post" action="/shorten_url">
+      <label for="url">Enter URL:</label>
+      <input type="text" id="url" name="url">
+      <button type="submit">Shorten</button>
+    </form>
+      
+    {% if redirect_url %}
+      <p>Shortened URL: <a href="{{ redirect_url }}">{{ redirect_url }}</a></p>
+      <button type="button" onclick="copyToClipboard('{{ redirect_url }}')">Copy to Clipboard</button>
+    {% elif error %}
+      <p>Error: {{ error }}</p>
+    {% endif %}
+
+    <script>
+      function copyToClipboard(text) {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'text');
+        input.setAttribute('value', text);
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+        alert('Copied to clipboard: ' + text);
+      }
+    </script>
+  </body>
+
+  {% endblock %}
+
+</html>
+
+
